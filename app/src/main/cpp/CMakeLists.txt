@@ -15,6 +15,15 @@ project("myapplication")
 # Gradle automatically packages shared libraries with your APK.
 
 add_library( # Sets the name of the library.
+        thiscretematrix
+
+        # Sets the library as a shared library.
+        SHARED
+
+        # Provides a relative path to your source file(s).
+        thiscretematrix.cpp )
+
+add_library( # Sets the name of the library.
              native-lib
 
              # Sets the library as a shared library.
@@ -31,24 +40,6 @@ add_library( # Sets the name of the library.
 
         # Provides a relative path to your source file(s).
         thiscretelinreg.cpp)
-
-add_library( # Sets the name of the library.
-        thiscretematrix
-
-        # Sets the library as a shared library.
-        SHARED
-
-        # Provides a relative path to your source file(s).
-        thiscretematrix.cpp)
-
-add_library( # Sets the name of the library.
-        thiscretevector
-
-        # Sets the library as a shared library.
-        SHARED
-
-        # Provides a relative path to your source file(s).
-        thiscretevector.cpp)
 
 # Searches for a specified prebuilt library and stores the path as a
 # variable. Because CMake includes system libraries in the search path by
@@ -73,8 +64,6 @@ target_link_libraries( # Specifies the target library.
                        thiscretelinreg
 
                        thiscretematrix
-
-                       thiscretevector
 
                        # Links the target library to the log library
                        # included in the NDK.

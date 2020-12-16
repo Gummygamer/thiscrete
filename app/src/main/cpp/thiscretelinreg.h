@@ -6,7 +6,6 @@
 #define MY_APPLICATION_THISCRETELINREG_H
 
 #include "thiscretematrix.h"
-#include "thiscretevector.h"
 
 
 class thiscretelinreg {
