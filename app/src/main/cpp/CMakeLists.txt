@@ -50,8 +50,6 @@ find_library( # Sets the name of the path variable.
 # build script, prebuilt third-party libraries, or system libraries.
 
 target_link_libraries( # Specifies the target library.
-                       native-lib
-
                        thiscretelinreg
 
                        thiscretematrix
