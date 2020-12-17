@@ -24,15 +24,6 @@ add_library( # Sets the name of the library.
         thiscretematrix.cpp )
 
 add_library( # Sets the name of the library.
-             native-lib
-
-             # Sets the library as a shared library.
-             SHARED
-
-             # Provides a relative path to your source file(s).
-             native-lib.cpp )
-
-add_library( # Sets the name of the library.
         thiscretelinreg
 
         # Sets the library as a shared library.

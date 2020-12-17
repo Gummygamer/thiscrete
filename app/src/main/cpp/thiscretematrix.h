@@ -6,6 +6,7 @@
 #define MY_APPLICATION_THISCRETEMATRIX_H
 
 #include <cstdint>
+#include <string>
 
 class thiscretevector {
 private:
@@ -21,6 +22,8 @@ public:
     thiscretevector operator +=(thiscretevector v);
 
     uint8_t dot (thiscretevector v);
+
+    std::string to_string();
 
 };
 

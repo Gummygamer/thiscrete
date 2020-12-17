@@ -10,18 +10,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val kotlinvec = arrayOf(1.0F,1.2F,2.0F,0.5F)
+        val kotlinvec = arrayOf(1.0F,1.2F,2.0F,0.5F).toFloatArray()
 
         val scaler:Scaler = Scaler(kotlinvec)
 
-        val converted:Array<UByte> = scaler.scale()
+        val converted:UByteArray = scaler.scale()
+
+        //println(scaler.scaleBack(scaleVector(converted,converted.size)).toString())
 
         // Example of a call to a native method
-        findViewById<TextView>(R.id.sample_text).text = stringFromJNI()
+        findViewById<TextView>(R.id.sample_text).text = scaleVector(converted, converted.size)
     }
 
 
-    external fun stringFromJNI(): String
+    external fun scaleVector(data: UByteArray, dim:Int):String
 
     companion object {
         // Used to load the 'native-lib' library on application startup.

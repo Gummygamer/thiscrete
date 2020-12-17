@@ -2,8 +2,12 @@
 // Created by Ga1ahad20 on 16/12/2020.
 //
 
+#include <jni.h>
 #include <cstdlib>
+#include <string>
 #include "thiscretematrix.h"
+
+using namespace std;
 
 thiscretevector::thiscretevector(uint8_t *x,uint8_t dim)
 {
@@ -74,6 +78,20 @@ uint8_t thiscretevector::dot (thiscretevector v)
 
     return acum;
 
+}
+
+string thiscretevector::to_string()
+{
+    string s = "";
+
+    int i;
+
+    for(i = 0;i < dim;i++)
+    {
+        s += std::to_string(x[i]) + ' ';
+    }
+
+    return s;
 }
 
 thiscretematrix::thiscretematrix(uint8_t **x, uint8_t dim1, uint8_t dim2)
@@ -202,4 +220,16 @@ thiscretematrix thiscretematrix::operator*(thiscretematrix m)
     return thiscretematrix(out, dim1, dim2);
 }
 
+extern "C" JNIEXPORT jstring JNICALL
+Java_com_example_myapplication_MainActivity_scaleVector_0002dPpDY95g(
+        JNIEnv* env,
+        jobject pThis,
+        jobject data, jint dim) {
+    thiscretevector v = thiscretevector((uint8_t*) data, (uint8_t) dim);
+    v = v*2;
+
+    string out = v.to_string();
+
+    return env->NewStringUTF(out.c_str());
+}
 

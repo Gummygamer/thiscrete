@@ -2,27 +2,40 @@ package com.example.myapplication
 
 import kotlin.math.roundToInt
 
-class Scaler(val data: Array<Float>) {
+class Scaler(var data: FloatArray) {
     var multiplier:Float = 0F
     var padding:Float = 0F
+    val growth:Float = 2F
+    var std = 0.0
+    val mean = data.average()
+
+    private fun normalize(){
+        for (e in data) {
+            std += Math.pow(e.toDouble() - mean, 2.0)
+        }
+
+        std = Math.sqrt(std / data.size)
+
+        for (i in 0..(data.size - 1)){
+            data[i] = ((data[i].toDouble() - mean) / std).toFloat()
+        }
+    }
+
+    private fun denormalize(input:FloatArray):FloatArray{
+        val out = FloatArray(input.size)
+        {
+            i -> (std*input[i].toDouble() + mean).toFloat()
+        }
+
+        return out
+    }
 
     private fun calc() {
 
-        var max:Float = data[0]
-        var min:Float = data[0]
+        normalize()
 
-        for(e in data)
-        {
-            if(e > max)
-            {
-                max = e
-            }
-
-            if(e < min)
-            {
-                min = e
-            }
-        }
+        val max = growth
+        val min = -growth
 
         multiplier = 255 / (max - min)
 
@@ -30,10 +43,10 @@ class Scaler(val data: Array<Float>) {
 
     }
 
-    fun scale():Array<UByte>{
+    fun scale():UByteArray{
         calc()
 
-        val out = Array<UByte>(data.size)
+        val out = UByteArray(data.size)
         {
             i -> (multiplier*data[i] + padding).roundToInt().toUByte()
         }
@@ -41,12 +54,12 @@ class Scaler(val data: Array<Float>) {
         return out
     }
 
-    fun scaleBack(dis: Array<UByte>):Array<Float>{
-        val out = Array<Float>(dis.size)
+    fun scaleBack(dis: UByteArray):FloatArray{
+        val out = FloatArray(dis.size)
         {
                 i -> (dis[i].toFloat() - padding) / multiplier
         }
 
-        return out
+        return denormalize(out)
     }
 }
