@@ -6,6 +6,17 @@ import android.widget.TextView
 import com.example.myapplication.Scaler
 
 class MainActivity : AppCompatActivity() {
+    private fun parsecplusplus(input: String):UByteArray {
+        val parts = input.split(" ")
+
+        var out = UByteArray(parts.size - 1)
+
+        for(i in 0..(parts.size-2)){
+            out[i] = parts[i].toInt().toUByte()
+        }
+
+        return out
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -16,10 +27,23 @@ class MainActivity : AppCompatActivity() {
 
         val converted:UByteArray = scaler.scale()
 
+        val cplusplus:String = scaleVector(converted, converted.size)
+
+        val convertedResult = parsecplusplus(cplusplus)
+
+        val finalResult = scaler.scaleBack(convertedResult)
+
+        var finalstring:String = ""
+
+        for(f in finalResult) {
+            finalstring += f.toString()
+            finalstring += " "
+        }
+
         //println(scaler.scaleBack(scaleVector(converted,converted.size)).toString())
 
         // Example of a call to a native method
-        findViewById<TextView>(R.id.sample_text).text = scaleVector(converted, converted.size)
+        findViewById<TextView>(R.id.sample_text).text = finalstring
     }
 
 
