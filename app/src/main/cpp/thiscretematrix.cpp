@@ -11,7 +11,7 @@
 
 using namespace std;
 
-thiscretevector::thiscretevector(const uint8_t x[4],uint8_t dim)
+thiscretevector::thiscretevector(const uint8_t x[],uint8_t dim)
 {
     this->dim = dim;
 

@@ -11,9 +11,9 @@
 class thiscretevector {
 private:
     uint8_t dim;
-    uint8_t x[4]{};
+    uint8_t x[];
 public:
-    thiscretevector(const uint8_t x[4],uint8_t dim);
+    thiscretevector(const uint8_t x[],uint8_t dim);
 
     thiscretevector operator +(thiscretevector v);
     thiscretevector operator -(thiscretevector v);
