@@ -5,14 +5,22 @@
 #include <jni.h>
 #include <cstdlib>
 #include <string>
+#include <vector>
+#include <sstream>
 #include "thiscretematrix.h"
 
 using namespace std;
 
-thiscretevector::thiscretevector(uint8_t *x,uint8_t dim)
+thiscretevector::thiscretevector(const uint8_t x[4],uint8_t dim)
 {
-    this->x = x;
     this->dim = dim;
+
+    uint8_t i;
+
+    for(i = 0; i < dim;i++)
+    {
+        this->x[i] = x[i];
+    }
 }
 
 thiscretevector thiscretevector::operator+(thiscretevector v)
@@ -33,10 +41,8 @@ thiscretevector thiscretevector::operator+=(thiscretevector v)
     auto* out = (uint8_t*) malloc(dim);
     for(i = 0; i < dim;i++)
     {
-        out[i] = (this->x)[i] + (v.x)[i];
+        this->x[i] = out[i] = (this->x)[i] + (v.x)[i];
     }
-
-    this->x = out;
 
     return thiscretevector(out,dim);
 }
@@ -56,7 +62,7 @@ thiscretevector thiscretevector::operator-(thiscretevector v)
 thiscretevector thiscretevector::operator*(uint8_t s)
 {
     uint8_t i = 0;
-    auto* out = (uint8_t*) malloc(dim);
+    uint8_t out[dim];
 
     for(i = 0; i < dim;i++)
     {
@@ -221,11 +227,33 @@ thiscretematrix thiscretematrix::operator*(thiscretematrix m)
 }
 
 extern "C" JNIEXPORT jstring JNICALL
-Java_com_example_myapplication_MainActivity_scaleVector_0002dPpDY95g(
+Java_com_example_myapplication_MainActivity_scaleVector(
         JNIEnv* env,
         jobject pThis,
-        jobject data, jint dim) {
-    thiscretevector v = thiscretevector((uint8_t*) data, (uint8_t) dim);
+        jstring datastr, jint dim) {
+    uint8_t data[dim];
+
+    uint8_t i = 0;
+
+    const char *cstr = env->GetStringUTFChars(datastr, NULL);
+
+
+    string cppdatastr = string(cstr);
+
+    vector<string> tokens;
+    string token;
+    istringstream tokenStream(cppdatastr);
+    while (getline(tokenStream, token, ' '))
+    {
+        tokens.push_back(token);
+    }
+
+    for(i = 0;i < dim - 1; i++)
+    {
+        data[i] = (uint8_t) stoi(tokens[i]);
+    }
+
+    thiscretevector v = thiscretevector(data, (uint8_t) dim);
     v = v*2;
 
     string out = v.to_string();

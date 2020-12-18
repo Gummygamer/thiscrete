@@ -17,17 +17,52 @@ class MainActivity : AppCompatActivity() {
 
         return out
     }
+
+    private fun parsecomplemented(input: ShortArray):String
+    {
+        var out = ""
+
+        for(e in input)
+        {
+            out += e.toString() + " "
+        }
+
+        return out
+    }
+
+    private fun purebyteValues(input: UByteArray):ShortArray
+    {
+        var out = ShortArray(input.size)
+
+        for(i in input.indices)
+        {
+            if(input[i] >= 0u)
+            {
+                out[i] = input[i].toShort()
+            }
+            else
+            {
+                out[i] = (256.toShort() + input[i].toShort()).toShort()
+            }
+        }
+
+        return out
+    }
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val kotlinvec = arrayOf(1.0F,1.2F,2.0F,0.5F).toFloatArray()
+        val kotlinvec = arrayOf(1.0F,1.2F,0.5F,2.0F).toFloatArray()
 
         val scaler:Scaler = Scaler(kotlinvec)
 
         val converted:UByteArray = scaler.scale()
 
-        val cplusplus:String = scaleVector(converted, converted.size)
+        val complemented:ShortArray = purebyteValues(converted)
+
+        val datastr = parsecomplemented(complemented)
+
+        val cplusplus:String = scaleVector(datastr, converted.size)
 
         val convertedResult = parsecplusplus(cplusplus)
 
@@ -47,7 +82,7 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    external fun scaleVector(data: UByteArray, dim:Int):String
+    external fun scaleVector(datastr:String, dim:Int):String
 
     companion object {
         // Used to load the 'native-lib' library on application startup.
