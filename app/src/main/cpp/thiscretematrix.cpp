@@ -11,9 +11,11 @@
 
 using namespace std;
 
-thiscretevector::thiscretevector(const uint8_t x[],uint8_t dim)
+thiscretevector::thiscretevector(uint8_t* x,uint8_t dim)
 {
     this->dim = dim;
+
+    this->x = (uint8_t*) malloc(dim*sizeof(uint8_t));
 
     uint8_t i;
 

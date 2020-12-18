@@ -8,12 +8,14 @@
 #include <cstdint>
 #include <string>
 
+//#define DATASIZE 10
+
 class thiscretevector {
 private:
     uint8_t dim;
-    uint8_t x[];
+    uint8_t* x;
 public:
-    thiscretevector(const uint8_t x[],uint8_t dim);
+    thiscretevector(uint8_t* x,uint8_t dim);
 
     thiscretevector operator +(thiscretevector v);
     thiscretevector operator -(thiscretevector v);
